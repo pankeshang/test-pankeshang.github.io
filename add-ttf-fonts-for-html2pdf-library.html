@@ -1,0 +1,72 @@
+<html lang="en" class=""><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Language" content="en">
+  <link rel="stylesheet" type="text/css" href="/github-syntax-highlight.css">
+  <link rel="stylesheet" type="text/css" href="/github-markdown.css">
+  <style>
+    .markdown-body {
+      min-width: 200px;
+      max-width: 790px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+  </style>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://localhost:8090/');
+    socket.on('connect', function () {
+      socket.on('newContent', function(newHTML) {
+        document.querySelector(".markdown-body").innerHTML = newHTML;
+      });
+      socket.on('die', function(newHTML) {
+        window.open('', '_self', '');
+        window.close();
+
+        var firefoxWarning =
+        "<h1>Oops!</h1>" +
+        "<h3>Firefox doesn't allow windows to self-close.</h3>" +
+        "<h3>If you want the preview window to close automatically like in other browsers, go to about:config and set dom.allow_scripts_to_close_windows to true.</h3>"
+        document.body.innerHTML = firefoxWarning;
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div class="repository-with-sidebar repo-container new-discussion-timeline with-full-navigation">
+        <div id="js-repo-pjax-container" class="repository-content context-loader-container">
+          <div id="readme" class="boxed-group flush clearfix announce instapaper_body md">
+            <article class="markdown-body"><h1>Add TTF fonts for HTML2PDF library</h1>
+<hr>
+<h3>Task</h3>
+<p>I am working for my client's project, which I need to add a font for the <code>html2pdf</code> library to use.</p>
+<h3>Background</h3>
+<p>my <code>html2pdf</code> version is 4.4.0 and <code>TCPDF</code>'s version is 5.0.002 (<code>TCPDF</code> is the depencency of <code>html2pdf</code>. This version of <code>TCPDF</code> is super old cuz it is legacy code from a Indian team).</p>
+<p>I managed to find the <strong>TTF</strong> file for the font, which <code>html2pdf</code> cannot comprehand.</p>
+<h3>Difficulty</h3>
+<p>newer version of <code>TCPDF</code> has a function <code>addTTFFont</code> (<a href="https://tcpdf.org/docs/fonts/">https://tcpdf.org/docs/fonts/</a>) which would help but my old version does not have it.</p>
+<h3>Solution</h3>
+<p>So i found this answer from stackoverflow (<a href="http://stackoverflow.com/questions/28138913/how-to-add-ttf-font-to-html2pdf-php-program">http://stackoverflow.com/questions/28138913/how-to-add-ttf-font-to-html2pdf-php-program</a>)</p>
+<p>using this site <a href="http://www.xml-convert.com/en/convert-tff-font-to-afm-pfa-fpdf-tcpdf">http://www.xml-convert.com/en/convert-tff-font-to-afm-pfa-fpdf-tcpdf</a> i can transform the <code>.ttf</code> file into 3 files:</p>
+<ul>
+<li><code>.php</code> file</li>
+<li><code>.z</code> file</li>
+<li><code>.arm</code> file</li>
+</ul>
+<p>turned out <code>TCPDF</code> does <strong>not</strong> need the <code>.arm</code> file, all i need to do is to copy the <code>.php</code> and <code>.z</code> file into its fonts folder, and then run this</p>
+<pre><code>$html2pdf-&gt;addFont('custom-font', '', 'custom-font');
+</code></pre>
+<p>which would add the font into the PDF file and can be used.</p>
+<h3>TODO</h3>
+<p>The conversion website is not considered as stable, we should create a on premise solution for it.</p>
+</article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body></html>
